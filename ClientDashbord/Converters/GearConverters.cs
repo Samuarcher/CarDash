@@ -2,21 +2,15 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace ClientDashbord
+namespace ClientDashbord.Converters
 {
-	public class DoubleConverters : IValueConverter
+	public class GearConverters : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			int nbDecimal = 0;
-			if (parameter != null)
+			if (value is int intValue)
 			{
-				nbDecimal = System.Convert.ToInt32(parameter);
-			}
-
-			if (value is double doubleValue)
-			{
-				return Math.Round(doubleValue, nbDecimal);
+				return intValue == 0 ? "R" : intValue.ToString();
 			}
 
 			return value;

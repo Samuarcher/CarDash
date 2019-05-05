@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using ClientDashbord.Annotations;
+using ClientDashbord.Properties;
 
 namespace ClientDashbord
 {

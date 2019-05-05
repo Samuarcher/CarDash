@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="ClientDashbord.Views.CourseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:ClientDashbord.ViewModels"
+             xmlns:converters="clr-namespace:ClientDashbord.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance viewModels:RaceViewModel}">
+	<UserControl.Resources>
+		<converters:DoubleConverters x:Key="DoubleConverters"/>
+		<converters:TimeConverters x:Key="TimeConverters"/>
+	</UserControl.Resources>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+	    <StackPanel Grid.Row="0"
+					Grid.Column="0"
+	                Grid.ColumnSpan="2">
+			<TextBlock FontSize="30">
+				<TextBlock.Text>
+					<MultiBinding StringFormat="{} - LapViewModels : {0} - Position : {1}">
+						<Binding Path="Lap" />
+						<Binding Path="Position" />
+					</MultiBinding>
+				</TextBlock.Text>
+			</TextBlock>
+		</StackPanel>
+
+		<TextBlock Grid.Row="1"
+		           Grid.Column="0"
+		           FontSize="30"
+		           Text=" - Temps total :"/>
+		<TextBlock Grid.Row="1"
+		           Grid.Column="1"
+		           FontSize="30"
+				   HorizontalAlignment="Right"
+		           Text="{Binding TotalTime, Converter={StaticResource TimeConverters}, StringFormat='{} {0}'}"/>
+
+		<TextBlock Grid.Row="2"
+		       Grid.Column="0"
+		       FontSize="30"
+		       Text=" - Distance total :"/>
+		<TextBlock Grid.Row="2"
+				   Grid.Column="1"
+		           FontSize="30"
+				   HorizontalAlignment="Right"
+		           Text="{Binding DistanceParcouruKm, Converter={StaticResource DoubleConverters}, ConverterParameter=2, StringFormat='{} {0} Km'}"/>
+
+		<TextBlock Grid.Row="3"
+		       Grid.Column="0"
+		       FontSize="30"
+		       Text=" - LapViewModels :"/>
+		<TextBlock Grid.Row="3"
+		           Grid.Column="1"
+		           FontSize="30"
+		           HorizontalAlignment="Right"
+		           Text="{Binding TimeLap, Converter={StaticResource TimeConverters}, StringFormat='{} {0}'}"/>
+
+		<TextBlock Grid.Row="4"
+		           Grid.Column="0"
+		           FontSize="30"
+		           Text=" - Last laps :"/>
+		<TextBlock Grid.Row="4"
+		           Grid.Column="1"
+		           FontSize="30"
+		           HorizontalAlignment="Right"
+		           Text="{Binding LastTimeLap, Converter={StaticResource TimeConverters}, StringFormat='{} {0}'}"/>
+
+		<TextBlock Grid.Row="5"
+		           Grid.Column="0"
+		           FontSize="30"
+		           Text=" - Best laps :"/>
+		<TextBlock Grid.Row="5"
+		           Grid.Column="1"
+		           FontSize="30"
+		           HorizontalAlignment="Right"
+		           Text="{Binding BestTimeLap, Converter={StaticResource TimeConverters}, StringFormat='{} {0}'}"/>
+
+		<DataGrid Grid.Row="6"
+		          Grid.Column="0"
+		          Grid.ColumnSpan="2"
+				  IsReadOnly="True"
+				  AutoGenerateColumns="False"
+		          ItemsSource="{Binding Laps}">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="#" Binding="{Binding Numero}"/>
+				<DataGridTextColumn Header="Time" Binding="{Binding Time, Converter={StaticResource TimeConverters}}"/>
+				<DataGridTextColumn Header="Delta" Binding="{Binding TimeDelta, Converter={StaticResource TimeConverters}}"/>
+				<DataGridTextColumn Header="Position" Binding="{Binding Position}"/>
+			</DataGrid.Columns>
+		</DataGrid>
+    </Grid>
+</UserControl>
