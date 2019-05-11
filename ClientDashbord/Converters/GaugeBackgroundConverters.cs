@@ -7,8 +7,12 @@ namespace ClientDashbord.Converters
 {
 	public class GaugeBackgroundConverters : IValueConverter
 	{
+		public PourcentageConverters PourcentageConverters { get; set; }
+
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
+			value = this.PourcentageConverters?.Convert(value, targetType, parameter, culture);
+
 			if (value is double doubleValue)
 			{
 				if (doubleValue < 10)

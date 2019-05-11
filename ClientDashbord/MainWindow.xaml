@@ -5,10 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientDashbord"
         xmlns:views="clr-namespace:ClientDashbord.Views"
+        xmlns:viewModels="clr-namespace:ClientDashbord.ViewModels"
+        xmlns:converters="clr-namespace:ClientDashbord.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="1000" Width="1900"
         WindowState="Maximized"
         d:DataContext="{d:DesignInstance local:MainViewModel}">
+	<Window.Resources>
+		<local:BindingProxy x:Key="BindingProxy"
+		                       Data="{Binding}" />
+		<converters:TimeConverters x:Key="TimeConverters"/>
+		<converters:VitesseConverters x:Key="VitesseConverters"/>
+		<converters:DoubleConverters x:Key="DoubleConverters"/>
+		<converters:TemperatureConverters x:Key="TemperatureConverters"/>
+	</Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"/>
@@ -19,25 +29,36 @@
 			<ColumnDefinition Width="Auto"/>
 		</Grid.ColumnDefinitions>
 
-		<GroupBox Grid.Column="0"
-				  Grid.Row="0"
-		          FontSize="20"
-		          Header="Car information">
-			<views:CarInformationView DataContext="{Binding CarDashViewModel.CarInformationViewModel}"/>
-		</GroupBox>
-
-		<GroupBox Grid.Column="1"
-				  Grid.Row="0"
-				  FontSize="20"
-		          Header="LapViewModels information">
-			<views:CourseView Width="500"
-			                  DataContext="{Binding CarDashViewModel.RaceViewModel}"/>
-		</GroupBox>
+		<TabControl Grid.Row="0"
+		            Grid.Column="0"
+		            Grid.ColumnSpan="2"
+					SelectedItem="{Binding CarDashViewModel}"
+		            ItemsSource="{Binding CarDashViewModels}">
+			<TabControl.ItemTemplate>
+				<DataTemplate DataType="viewModels:CarDashViewModel">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding TabName}"
+								   Margin="3"
+						           VerticalAlignment="Center"/>
+						<Button Content=" X "
+						        Command="{Binding Data.CloseRaceCommand, Source={StaticResource BindingProxy}}"
+								CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}}"
+						        Margin="3" />
+					</StackPanel>
+				</DataTemplate>
+			</TabControl.ItemTemplate>
+			<TabControl.ContentTemplate>
+				<DataTemplate DataType="viewModels:CarDashViewModel">
+					<views:CarDashView DataContext="{Binding}" />
+				</DataTemplate>
+			</TabControl.ContentTemplate>
+		</TabControl>
 		
 		<Grid Grid.Row="1"
 		      Grid.Column="0"
 		      Grid.ColumnSpan="2">
 			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="Auto"/>

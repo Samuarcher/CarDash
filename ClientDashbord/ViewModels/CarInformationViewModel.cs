@@ -9,11 +9,9 @@ namespace ClientDashbord.ViewModels
 	{
 		[PositionByte(303, 1)]
 		public int Acceleration { get; set; }
-		public double AccelerationPourcentage => this.Acceleration * 100 / 255;
 
 		[PositionByte(304, 1)]
 		public int Frein { get; set; }
-		public double FreinPourcentage => this.Frein * 100 / 255;
 
 		[PositionByte(306, 1)]
 		public int FreinAMain { get; set; }
@@ -21,10 +19,9 @@ namespace ClientDashbord.ViewModels
 
 		[PositionByte(244)]
 		public double Vitesse { get; set; }
-		public double VitesseKmParH => this.Vitesse * 3.6;
 		public List<double> Vitesses { get; set; }
 		public double VitesseMoyenne => this.Vitesses.Sum() / this.Vitesses.Count;
-		public double VitesseMoyenneKmParH => this.VitesseMoyenne * 3.6;
+		public double VitesseMax => this.Vitesses.Any() ? this.Vitesses.Max() : 0;
 
 
 		[PositionByte(12)]
@@ -49,18 +46,31 @@ namespace ClientDashbord.ViewModels
 
 		public double RpmMax { get; set; }
 
-
-
 		[PositionByte(276)]
 		public double Fuel { get; set; }
-		public double FuelPourcentage => this.Fuel * 100;
 
 		[PositionByte(307, 1)]
 		public int Gear { get; set; }
 
+		[PositionByte(256)]
+		public double TempPneuFL { get; set; }
+
+		[PositionByte(260)]
+		public double TempPneuFR { get; set; }
+
+		[PositionByte(264)]
+		public double TempPneuRL { get; set; }
+
+		[PositionByte(268)]
+		public double TempPneuRR { get; set; }
+
 		public CarInformationViewModel()
 		{
 			this.Vitesses = new List<double>();
+			this.TempPneuFL = 32;
+			this.TempPneuFR = 32;
+			this.TempPneuRL = 32;
+			this.TempPneuRR = 32;
 			this.PropertyChanged += this.OnPropertyChanged;
 		}
 		
@@ -81,7 +91,6 @@ namespace ClientDashbord.ViewModels
 		{
 			this.Vitesses.Add(this.Vitesse);
 			this.OnPropertyChanged(nameof(this.VitesseMoyenne));
-			this.OnPropertyChanged(nameof(this.VitesseMoyenneKmParH));
 		}
 
 		private void CalculRpmMax()
@@ -90,6 +99,20 @@ namespace ClientDashbord.ViewModels
 			this.RpmMax = Math.Ceiling(max / 1000) * 1000;
 			this.OnPropertyChanged(nameof(this.RpmMax));
 			this.OnPropertyChanged(nameof(this.RpmCurrentPourcentage));
+		}
+
+		public void EndRace()
+		{
+			this.Vitesse = 0;
+			this.OnPropertyChanged(nameof(this.Vitesse));
+			this.RpmCurrent = 0;
+			this.OnPropertyChanged(nameof(this.RpmCurrent));
+			this.Gear = -1;
+			this.OnPropertyChanged(nameof(this.Gear));
+			this.Acceleration = 0;
+			this.OnPropertyChanged(nameof(this.Acceleration));
+			this.Frein = 0;
+			this.OnPropertyChanged(nameof(this.Frein));
 		}
 	}
 }

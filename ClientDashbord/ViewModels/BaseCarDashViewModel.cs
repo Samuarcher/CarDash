@@ -14,7 +14,7 @@ namespace ClientDashbord.ViewModels
 			this.ActionPostUpdate = new List<Action>();
 		}
 
-		public void Update(byte[] bytes)
+		public virtual void Update(byte[] bytes)
 		{
 			IEnumerable<PropertyInfo> properties = this.GetType().GetProperties().Where(o => Attribute.IsDefined((MemberInfo) o, typeof(PositionByteAttribute)));
 

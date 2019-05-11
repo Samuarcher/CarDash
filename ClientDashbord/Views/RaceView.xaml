@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ClientDashbord.Views.CourseView"
+﻿<UserControl x:Class="ClientDashbord.Views.RaceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -32,7 +32,7 @@
 	                Grid.ColumnSpan="2">
 			<TextBlock FontSize="30">
 				<TextBlock.Text>
-					<MultiBinding StringFormat="{} - LapViewModels : {0} - Position : {1}">
+					<MultiBinding StringFormat="{} - Laps : {0} - Position : {1}">
 						<Binding Path="Lap" />
 						<Binding Path="Position" />
 					</MultiBinding>
@@ -63,7 +63,7 @@
 		<TextBlock Grid.Row="3"
 		       Grid.Column="0"
 		       FontSize="30"
-		       Text=" - LapViewModels :"/>
+		       Text=" - Lap :"/>
 		<TextBlock Grid.Row="3"
 		           Grid.Column="1"
 		           FontSize="30"
@@ -98,9 +98,27 @@
 		          ItemsSource="{Binding Laps}">
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="#" Binding="{Binding Numero}"/>
-				<DataGridTextColumn Header="Time" Binding="{Binding Time, Converter={StaticResource TimeConverters}}"/>
-				<DataGridTextColumn Header="Delta" Binding="{Binding TimeDelta, Converter={StaticResource TimeConverters}}"/>
-				<DataGridTextColumn Header="Position" Binding="{Binding Position}"/>
+				<DataGridTemplateColumn Header="Time">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="viewModels:LapViewModel">
+							<TextBlock Text="{Binding Time, Converter={StaticResource TimeConverters}}" HorizontalAlignment="Right"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Delta">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="viewModels:LapViewModel">
+							<TextBlock Text="{Binding TimeDelta, Converter={StaticResource TimeConverters}}" HorizontalAlignment="Right"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Header="Position">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="viewModels:LapViewModel">
+							<TextBlock Text="{Binding Position}" HorizontalAlignment="Right"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
     </Grid>

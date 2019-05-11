@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
 using System.Net;
@@ -6,6 +7,7 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 using ClientDashbord.ViewModels;
 using Newtonsoft.Json;
 
@@ -16,6 +18,8 @@ namespace ClientDashbord
 		private CarDashViewModel _carDashViewModel;
 		private bool _stopServerUpd;
 		private readonly string _folderSaveRaceFile;
+		
+		public ObservableCollection<CarDashViewModel> CarDashViewModels { get; set; }
 
 		public CarDashViewModel CarDashViewModel
 		{
@@ -30,19 +34,28 @@ namespace ClientDashbord
 		public ICommand StartRaceCommand { get; }
 		public ICommand EndRaceCommand { get; }
 		public ICommand OpenRaceCommand { get; }
+		public ICommand CloseRaceCommand { get; }
 
 		public MainViewModel()
 		{
-			this.CarDashViewModel = new CarDashViewModel();
+			this.CarDashViewModels = new ObservableCollection<CarDashViewModel>();
 			this._folderSaveRaceFile = ConfigurationManager.AppSettings["FolderSaveRaceFile"];
 
 			this.StartRaceCommand = new Command(this.ExecuteStartRace);
 			this.EndRaceCommand = new Command(this.ExecuteEndRace);
 			this.OpenRaceCommand = new Command(this.ExecuteOpenRace);
+			this.CloseRaceCommand = new Command<CarDashViewModel>(this.ExecuteCloseRace);
+		}
+
+		private void ExecuteCloseRace(CarDashViewModel carDashViewModel)
+		{
+			this.CarDashViewModels.Remove(carDashViewModel);
 		}
 
 		private void ExecuteStartRace()
 		{
+			this.CarDashViewModel = new CarDashViewModel();
+			this.CarDashViewModels.Add(this.CarDashViewModel);
 			this._stopServerUpd = false;
 			this.Launch();
 		}
@@ -96,9 +109,11 @@ namespace ClientDashbord
 
 		private void ExecuteOpenRace()
 		{
-			OpenFileDialog openFileDialog = new OpenFileDialog();
-			openFileDialog.Filter = @"race file (*.race)|*.race";
-			openFileDialog.InitialDirectory = this._folderSaveRaceFile;
+			OpenFileDialog openFileDialog = new OpenFileDialog
+			{
+				Filter = @"race file (*.race)|*.race",
+				InitialDirectory = this._folderSaveRaceFile
+			};
 
 			if (openFileDialog.ShowDialog() == DialogResult.OK)
 			{
@@ -111,6 +126,7 @@ namespace ClientDashbord
 				}
 
 				this.CarDashViewModel = JsonConvert.DeserializeObject<CarDashViewModel>(jsonRace);
+				this.CarDashViewModels.Add(this.CarDashViewModel);
 			}
 		}
 	}

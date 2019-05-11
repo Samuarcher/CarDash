@@ -4,23 +4,13 @@ using System.Windows.Data;
 
 namespace ClientDashbord.Converters
 {
-	public class GearConverters : IValueConverter
+	public class TemperatureConverters : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (value is int intValue)
+			if (value is double doubleValue)
 			{
-				if (intValue < 0)
-				{
-					return "N";
-				}
-
-				if (intValue == 0)
-				{
-					return "R";
-				}
-
-				return intValue.ToString();
+				return Math.Round((doubleValue - 32) / 1.8, 1);
 			}
 
 			return value;

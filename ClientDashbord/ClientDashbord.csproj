@@ -57,18 +57,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BindingProxy.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Converters\GaugeBackgroundConverters.cs" />
     <Compile Include="Converters\GearConverters.cs" />
+    <Compile Include="Converters\PourcentageConverters.cs" />
+    <Compile Include="Converters\TemperatureConverters.cs" />
     <Compile Include="Converters\TimeConverters.cs" />
+    <Compile Include="Converters\VitesseConverters.cs" />
     <Compile Include="ViewModels\CarInformationViewModel.cs" />
+    <Compile Include="ViewModels\HistoriquesViewModel.cs" />
+    <Compile Include="ViewModels\HistoriqueViewModel.cs" />
     <Compile Include="ViewModels\RaceViewModel.cs" />
     <Compile Include="ViewModels\LapViewModel.cs" />
+    <Compile Include="Views\CarDashView.xaml.cs">
+      <DependentUpon>CarDashView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CarInformationView.xaml.cs">
       <DependentUpon>CarInformationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CourseView.xaml.cs">
-      <DependentUpon>CourseView.xaml</DependentUpon>
+    <Compile Include="Views\HistoriquesView.xaml.cs">
+      <DependentUpon>HistoriquesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RaceView.xaml.cs">
+      <DependentUpon>RaceView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -88,11 +100,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\CarDashView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CarInformationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CourseView.xaml">
+    <Page Include="Views\HistoriquesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RaceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

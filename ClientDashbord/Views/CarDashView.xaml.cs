@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ClientDashbord.Views
 {
 	/// <summary>
-	/// Logique d'interaction pour RaceView.xaml
+	/// Logique d'interaction pour CarDashView.xaml
 	/// </summary>
-	public partial class RaceView : UserControl
+	public partial class CarDashView : UserControl
 	{
-		public RaceView()
+		public CarDashView()
 		{
 			InitializeComponent();
 		}

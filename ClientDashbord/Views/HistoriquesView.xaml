@@ -1,0 +1,93 @@
+﻿<UserControl x:Class="ClientDashbord.Views.HistoriquesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:views="clr-namespace:ClientDashbord.Views"
+             xmlns:viewModels="clr-namespace:ClientDashbord.ViewModels"
+             xmlns:converters="clr-namespace:ClientDashbord.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance views:HistoriquesView}">
+	<UserControl.Resources>
+		<converters:TimeConverters x:Key="TimeConverters"/>
+		<converters:VitesseConverters x:Key="VitesseConverters"/>
+		<converters:TemperatureConverters x:Key="TemperatureConverters"/>
+		<converters:PourcentageConverters x:Key="PourcentageConverters"/>
+	</UserControl.Resources>
+	<TabControl>
+		<TabItem Header="Graphique">
+		</TabItem>
+		<TabItem Header="Tableau">
+			<DataGrid AutoGenerateColumns="False"
+			  IsReadOnly="True"
+	          ItemsSource="{Binding}">
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="Time">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate DataType="viewModels:HistoriqueViewModel">
+								<TextBlock Text="{Binding Time, Converter={StaticResource TimeConverters}}" HorizontalAlignment="Right"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Vitesse">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate DataType="viewModels:HistoriqueViewModel">
+								<TextBlock Text="{Binding Vitesse, Converter={StaticResource VitesseConverters}, StringFormat={} {0} Km/h}" HorizontalAlignment="Right"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Accélération">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate DataType="viewModels:HistoriqueViewModel">
+								<TextBlock Text="{Binding Acceleration, Converter={StaticResource PourcentageConverters}, ConverterParameter=255, StringFormat={} {0} %}" HorizontalAlignment="Right"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Frein">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate DataType="viewModels:HistoriqueViewModel">
+								<TextBlock Text="{Binding Frein, Converter={StaticResource PourcentageConverters}, ConverterParameter=255, StringFormat={} {0} %}" HorizontalAlignment="Right"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Carburant">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate DataType="viewModels:HistoriqueViewModel">
+								<TextBlock Text="{Binding Fuel, Converter={StaticResource PourcentageConverters}, StringFormat={} {0} %}" HorizontalAlignment="Right"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Pneu avant gauche">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate DataType="viewModels:HistoriqueViewModel">
+								<TextBlock Text="{Binding TempPneuFL, Converter={StaticResource TemperatureConverters}, ConverterParameter=2, StringFormat={} {0} °C}" HorizontalAlignment="Right"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Pneu avant droit">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate DataType="viewModels:HistoriqueViewModel">
+								<TextBlock Text="{Binding TempPneuFR, Converter={StaticResource TemperatureConverters}, ConverterParameter=2, StringFormat={} {0} °C}" HorizontalAlignment="Right"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Pneu arrière gauche">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate DataType="viewModels:HistoriqueViewModel">
+								<TextBlock Text="{Binding TempPneuRL, Converter={StaticResource TemperatureConverters}, ConverterParameter=2, StringFormat={} {0} °C}" HorizontalAlignment="Right"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTemplateColumn Header="Pneu arrière droit">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate DataType="viewModels:HistoriqueViewModel">
+								<TextBlock Text="{Binding TempPneuRR, Converter={StaticResource TemperatureConverters}, ConverterParameter=2, StringFormat={} {0} °C}" HorizontalAlignment="Right"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</TabItem>
+	</TabControl>
+</UserControl>

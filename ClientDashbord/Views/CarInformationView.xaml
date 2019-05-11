@@ -11,8 +11,11 @@
              d:DataContext="{d:DesignInstance viewModels:CarInformationViewModel}">
 	<UserControl.Resources>
 		<converters:DoubleConverters x:Key="DoubleConverters"/>
+		<converters:VitesseConverters x:Key="VitesseConverters"/>
 		<converters:GearConverters x:Key="GearConverters"/>
-		<converters:GaugeBackgroundConverters x:Key="GaugeBackgroundConverters"/>
+		<converters:PourcentageConverters x:Key="PourcentageConverters"/>
+		<converters:TemperatureConverters x:Key="TemperatureConverters"/>
+		<converters:GaugeBackgroundConverters x:Key="GaugeBackgroundConverters" PourcentageConverters="{StaticResource PourcentageConverters}"/>
 	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -33,10 +36,11 @@
 			            Orientation="Horizontal">
 				<TextBlock FontSize="50">
 					<TextBlock.Text>
-						<MultiBinding StringFormat="{}Gear : {0} - Vistesse : {1} Km/h (avg. {2} km/h)">
+						<MultiBinding StringFormat="{}Gear : {0} - Vistesse : {1} Km/h (avg. {2} km/h, max. {3} km/h)">
 							<Binding Path="Gear" Converter="{StaticResource GearConverters}"/>
-							<Binding Path="VitesseKmParH" Converter="{StaticResource DoubleConverters}"/>
-							<Binding Path="VitesseMoyenneKmParH" Converter="{StaticResource DoubleConverters}"/>
+							<Binding Path="Vitesse" Converter="{StaticResource VitesseConverters}"/>
+							<Binding Path="VitesseMoyenne" Converter="{StaticResource VitesseConverters}"/>
+							<Binding Path="VitesseMax" Converter="{StaticResource VitesseConverters}"/>
 						</MultiBinding>
 					</TextBlock.Text>
 				</TextBlock>
@@ -78,7 +82,7 @@
 			       Grid.Column="0"
 				   FontSize="30"
 				   HorizontalContentAlignment="Center"
-				   Content="{Binding AccelerationPourcentage, Converter={StaticResource DoubleConverters}, ConverterParameter=2}"
+				   Content="{Binding Acceleration, Converter={StaticResource PourcentageConverters}, ConverterParameter=255}"
 			       ContentStringFormat="{}Accélération - {0} %"/>
 			<controls:GaugeBar Grid.Row="1"
 			                   Grid.Column="0"
@@ -86,13 +90,13 @@
 							   Margin="5"
 			                   ShowValue="False"
 			                   TBarBackground="DeepSkyBlue"
-			                   Percentage="{Binding AccelerationPourcentage}"/>
+			                   Percentage="{Binding Acceleration, Converter={StaticResource PourcentageConverters}, ConverterParameter=255}"/>
 
 			<Label Grid.Row="0"
 			       Grid.Column="1"
 			       FontSize="30"
 			       HorizontalContentAlignment="Center"
-			       Content="{Binding FreinPourcentage, Converter={StaticResource DoubleConverters}, ConverterParameter=2}"
+			       Content="{Binding Frein, Converter={StaticResource PourcentageConverters}, ConverterParameter=255}"
 			       ContentStringFormat="{}Frein - {0} %"/>
 			<controls:GaugeBar Grid.Row="1"
 			                   Grid.Column="1"
@@ -100,7 +104,7 @@
 			                   Margin="5"
 			                   ShowValue="False"
 			                   TBarBackground="DarkRed"
-			                   Percentage="{Binding FreinPourcentage}"/>
+			                   Percentage="{Binding Frein, Converter={StaticResource PourcentageConverters}, ConverterParameter=255}"/>
 		</Grid>
 
 		<Grid Grid.Row="3">
@@ -112,14 +116,26 @@
 			<Label Grid.Column="0"
 				   FontSize="30"
 				   VerticalAlignment="Center"
-			       Content="{Binding FuelPourcentage, Converter={StaticResource DoubleConverters}, ConverterParameter=2}"
+			       Content="{Binding Fuel, Converter={StaticResource PourcentageConverters}}"
 			       ContentStringFormat="{}Carburant : {0} %"/>
 			<controls:GaugeBar Grid.Column="1"
 			                   Height="60"
 			                   Margin="5"
 			                   ShowValue="False"
-							   TBarBackground="{Binding FuelPourcentage, Converter={StaticResource GaugeBackgroundConverters}}"
-			                   Percentage="{Binding FuelPourcentage}"/>
+							   TBarBackground="{Binding Fuel, Converter={StaticResource GaugeBackgroundConverters}}"
+			                   Percentage="{Binding Fuel, Converter={StaticResource PourcentageConverters}}"/>
 		</Grid>
+
+		<TextBlock Grid.Row="4"
+		           FontSize="25">
+			<TextBlock.Text>
+				<MultiBinding StringFormat="{}Pneu avant gauche : {0} °C - Pneu avant droit : {1} °C - Pneu arrière gauche : {2} °C - Pneu arrière droit : {3} °C">
+					<Binding Path="TempPneuFL" Converter="{StaticResource TemperatureConverters}"/>
+					<Binding Path="TempPneuFR" Converter="{StaticResource TemperatureConverters}"/>
+					<Binding Path="TempPneuRL" Converter="{StaticResource TemperatureConverters}"/>
+					<Binding Path="TempPneuRR" Converter="{StaticResource TemperatureConverters}"/>
+				</MultiBinding>
+			</TextBlock.Text>
+		</TextBlock>
 	</Grid>
 </UserControl>
