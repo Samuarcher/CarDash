@@ -80,8 +80,10 @@
 			        Margin="5"
 			        Command="{Binding OpenRaceCommand}"/>
 
-			<Label Grid.Column="4"
-				   Content="{Binding RamUse, Converter={StaticResource OctetsConverters}}"/>
+			<StackPanel Grid.Column="4">
+			<Label Content="{Binding RamUse, Converter={StaticResource OctetsConverters}}"/>
+			<Label Content="{Binding CarDashViewModel.NombreRecu}"/>
+			</StackPanel>
 		</Grid>
 	</Grid>
 </Window>

@@ -6,10 +6,8 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
 using ClientDashbord.ViewModels;
 using Newtonsoft.Json;
 
@@ -19,6 +17,7 @@ namespace ClientDashbord
 	{
 		private CarDashViewModel _carDashViewModel;
 		private bool _stopServerUpd;
+		private bool _stopShowRamUse;
 		private readonly string _folderSaveRaceFile;
 		private long _ramUse;
 
@@ -128,7 +127,7 @@ namespace ClientDashbord
 		{
 			try
 			{
-				while (true)
+				while (!this._stopShowRamUse)
 				{
 					Process proc = Process.GetCurrentProcess();
 					this.RamUse = proc.PrivateMemorySize64;
@@ -161,6 +160,11 @@ namespace ClientDashbord
 				this.CarDashViewModel = JsonConvert.DeserializeObject<CarDashViewModel>(jsonRace);
 				this.CarDashViewModels.Add(this.CarDashViewModel);
 			}
+		}
+
+		public void CloseApp()
+		{
+			this._stopShowRamUse = true;
 		}
 	}
 }

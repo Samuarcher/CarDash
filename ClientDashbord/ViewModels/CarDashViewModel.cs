@@ -7,6 +7,8 @@ namespace ClientDashbord.ViewModels
 	{
 		private int _time;
 
+		public long NombreRecu { get; set; }
+
 		public HistoriquesViewModel HistoriqueViewModels { get; set; }
 
 		public CarInformationViewModel CarInformationViewModel { get; }
@@ -35,6 +37,7 @@ namespace ClientDashbord.ViewModels
 		public CarDashViewModel()
 		{
 			this.DateStartRace = DateTime.Now;
+			this.NombreRecu = 0;
 			this.HistoriqueViewModels = new HistoriquesViewModel();
 			this.CarInformationViewModel = new CarInformationViewModel();
 			this.RaceViewModel = new RaceViewModel();
@@ -68,6 +71,8 @@ namespace ClientDashbord.ViewModels
 				TempPneuRR = this.CarInformationViewModel.TempPneuRR,
 			};
 			this.HistoriqueViewModels.Add(historiqueViewModel);
+			this.NombreRecu++;
+			this.OnPropertyChanged(nameof(this.NombreRecu));
 		}
 	}
 }
