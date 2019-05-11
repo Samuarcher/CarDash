@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -18,7 +20,8 @@ namespace ClientDashbord
 		private CarDashViewModel _carDashViewModel;
 		private bool _stopServerUpd;
 		private readonly string _folderSaveRaceFile;
-		
+		private long _ramUse;
+
 		public ObservableCollection<CarDashViewModel> CarDashViewModels { get; set; }
 
 		public CarDashViewModel CarDashViewModel
@@ -27,6 +30,16 @@ namespace ClientDashbord
 			set
 			{
 				this._carDashViewModel = value;
+				this.OnPropertyChanged();
+			}
+		}
+
+		public long RamUse
+		{
+			get => this._ramUse;
+			set
+			{
+				this._ramUse = value;
 				this.OnPropertyChanged();
 			}
 		}
@@ -45,6 +58,9 @@ namespace ClientDashbord
 			this.EndRaceCommand = new Command(this.ExecuteEndRace);
 			this.OpenRaceCommand = new Command(this.ExecuteOpenRace);
 			this.CloseRaceCommand = new Command<CarDashViewModel>(this.ExecuteCloseRace);
+
+			Thread ramUsesThread = new Thread(this.SetRamUse);
+			ramUsesThread.Start();
 		}
 
 		private void ExecuteCloseRace(CarDashViewModel carDashViewModel)
@@ -74,7 +90,8 @@ namespace ClientDashbord
 
 		private void Launch()
 		{
-			Task.Run(async () => this.LaunchClientUdp());
+			Thread udpClientThread = new Thread(this.LaunchClientUdp);
+			udpClientThread.Start();
 		}
 
 		private void LaunchClientUdp()
@@ -100,6 +117,22 @@ namespace ClientDashbord
 				}
 
 				udpClient.Close();
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+			}
+		}
+
+		private void SetRamUse()
+		{
+			try
+			{
+				while (true)
+				{
+					Process proc = Process.GetCurrentProcess();
+					this.RamUse = proc.PrivateMemorySize64;
+				}
 			}
 			catch (Exception e)
 			{

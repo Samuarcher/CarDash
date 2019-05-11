@@ -61,6 +61,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="Converters\GaugeBackgroundConverters.cs" />
     <Compile Include="Converters\GearConverters.cs" />
+    <Compile Include="Converters\OctetsConverters.cs" />
     <Compile Include="Converters\PourcentageConverters.cs" />
     <Compile Include="Converters\TemperatureConverters.cs" />
     <Compile Include="Converters\TimeConverters.cs" />

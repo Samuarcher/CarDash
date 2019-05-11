@@ -14,10 +14,7 @@
 	<Window.Resources>
 		<local:BindingProxy x:Key="BindingProxy"
 		                       Data="{Binding}" />
-		<converters:TimeConverters x:Key="TimeConverters"/>
-		<converters:VitesseConverters x:Key="VitesseConverters"/>
-		<converters:DoubleConverters x:Key="DoubleConverters"/>
-		<converters:TemperatureConverters x:Key="TemperatureConverters"/>
+		<converters:OctetsConverters x:Key="OctetsConverters"/>
 	</Window.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
@@ -61,8 +58,8 @@
 				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
 			</Grid.ColumnDefinitions>
 
 			<Button Grid.Column="0"
@@ -82,6 +79,9 @@
 			        Content="Open race"
 			        Margin="5"
 			        Command="{Binding OpenRaceCommand}"/>
+
+			<Label Grid.Column="4"
+				   Content="{Binding RamUse, Converter={StaticResource OctetsConverters}}"/>
 		</Grid>
 	</Grid>
 </Window>

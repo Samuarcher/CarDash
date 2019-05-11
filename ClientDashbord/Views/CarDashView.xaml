@@ -10,7 +10,6 @@
              d:DataContext="{d:DesignInstance viewModels:CarDashViewModel}">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -21,7 +20,15 @@
 		          Grid.Row="0"
 		          FontSize="20"
 		          Header="Car information">
-			<views:CarInformationView DataContext="{Binding CarInformationViewModel}"/>
+			<TabControl>
+				<TabItem Header="Temps réel">
+					<views:CarInformationView DataContext="{Binding CarInformationViewModel}"/>
+				</TabItem>
+				<TabItem Header="Historique">
+					<views:HistoriquesView DataContext="{Binding HistoriqueViewModels}"/>
+				</TabItem>
+			</TabControl>
+			
 		</GroupBox>
 
 		<GroupBox Grid.Column="1"
@@ -32,8 +39,5 @@
 			<views:RaceView Width="500"
 			                DataContext="{Binding RaceViewModel}"/>
 		</GroupBox>
-		<views:HistoriquesView Grid.Row="1"
-		                       Grid.Column="0"
-		                       DataContext="{Binding HistoriqueViewModels}"/>
 	</Grid>
 </UserControl>
