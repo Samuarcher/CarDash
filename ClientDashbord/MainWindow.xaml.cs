@@ -8,7 +8,7 @@ namespace ClientDashbord
 	/// </summary>
 	public partial class MainWindow
 	{
-		private MainViewModel _mainViewModel;
+		private readonly MainViewModel _mainViewModel;
 
 		public MainWindow()
 		{
@@ -16,12 +16,18 @@ namespace ClientDashbord
 
 			this._mainViewModel = new MainViewModel();
 			this.DataContext = this._mainViewModel;
-			this.Closed += OnClosed;
+			this.Closed += this.OnClosed;
 		}
 
 		private void OnClosed(object sender, EventArgs e)
 		{
 			this._mainViewModel.CloseApp();
+		}
+
+		private void GestionCircuitClick(object sender, RoutedEventArgs e)
+		{
+			GestionCircuitView gestionCircuitView = new GestionCircuitView();
+			gestionCircuitView.ShowDialog();
 		}
 	}
 }

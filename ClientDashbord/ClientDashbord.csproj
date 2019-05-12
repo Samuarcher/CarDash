@@ -58,6 +58,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BindingProxy.cs" />
+    <Compile Include="CircuitViewModel.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="Converters\GaugeBackgroundConverters.cs" />
     <Compile Include="Converters\GearConverters.cs" />
@@ -66,6 +67,11 @@
     <Compile Include="Converters\TemperatureConverters.cs" />
     <Compile Include="Converters\TimeConverters.cs" />
     <Compile Include="Converters\VitesseConverters.cs" />
+    <Compile Include="GestionCircuitView.xaml.cs">
+      <DependentUpon>GestionCircuitView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GestionCircuitViewModel.cs" />
+    <Compile Include="PisteViewModel.cs" />
     <Compile Include="ViewModels\CarInformationViewModel.cs" />
     <Compile Include="ViewModels\HistoriquesViewModel.cs" />
     <Compile Include="ViewModels\HistoriqueViewModel.cs" />
@@ -83,6 +89,10 @@
     <Compile Include="Views\RaceView.xaml.cs">
       <DependentUpon>RaceView.xaml</DependentUpon>
     </Compile>
+    <Page Include="GestionCircuitView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

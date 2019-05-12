@@ -1,0 +1,127 @@
+﻿<Window x:Class="ClientDashbord.GestionCircuitView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:clientDashbord="clr-namespace:ClientDashbord"
+        xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        mc:Ignorable="d"
+        Title="Gestion des circuits" Height="800" Width="1300"
+        d:DataContext="{d:DesignInstance clientDashbord:GestionCircuitViewModel}">
+	<Window.Resources>
+		<CollectionViewSource x:Key="CircuitViewModelsViewSource" Source="{Binding CircuitViewModels}">
+			<CollectionViewSource.SortDescriptions>
+				<componentModel:SortDescription PropertyName="NomCircuit"/>
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
+		<CollectionViewSource x:Key="PisteViewModelsViewSource" Source="{Binding CircuitViewModel.Pistes}">
+			<CollectionViewSource.SortDescriptions>
+				<componentModel:SortDescription PropertyName="NomPiste"/>
+			</CollectionViewSource.SortDescriptions>
+		</CollectionViewSource>
+	</Window.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+		<GroupBox Grid.Column="0"
+				  Grid.Row="0"
+		          Header="Circuit">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+				<GroupBox Grid.Row="0"
+			          Header="Ajouter circuit">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="Auto"/>
+						</Grid.ColumnDefinitions>
+
+						<TextBox Grid.Column="0"
+						         Margin="5"
+						         Text="{Binding CircuitName}"/>
+						<Button Grid.Column="1"
+							Margin="5"
+					        Content="Ajouter"
+							Command="{Binding AjouterCircuitCommand}"/>
+					</Grid>
+				</GroupBox>
+				<DataGrid Grid.Row="1"
+			          IsReadOnly="True"
+					  AutoGenerateColumns="False"
+			          ItemsSource="{Binding Source={StaticResource CircuitViewModelsViewSource}}"
+			          SelectedItem="{Binding CircuitViewModel}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Nom"
+						                    Binding="{Binding NomCircuit}"
+						                    FontSize="15"/>
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+		</GroupBox>
+
+		<GroupBox Grid.Column="1"
+		          Grid.Row="0"
+		          Header="Piste">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+				<GroupBox Grid.Row="0"
+		              Header="Ajouter piste">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="Auto"/>
+						</Grid.ColumnDefinitions>
+
+						<TextBox Grid.Column="0"
+						         Margin="5"
+						         Text="{Binding CircuitViewModel.PisteName}"/>
+						<Button Grid.Column="1"
+				            Margin="5"
+				            Content="Ajouter"
+				            Command="{Binding CircuitViewModel.AjouterPisteCommand}"/>
+					</Grid>
+				</GroupBox>
+				<DataGrid Grid.Row="1"
+		              IsReadOnly="True"
+		              AutoGenerateColumns="False"
+		              ItemsSource="{Binding Source={StaticResource PisteViewModelsViewSource}}"
+		              SelectedItem="{Binding CircuitViewModel.Piste}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Header="Nom"
+						                    Binding="{Binding NomPiste}"
+						                    FontSize="15"/>
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+		</GroupBox>
+
+		<Grid Grid.Column="0"
+		      Grid.Row="1"
+		      Grid.ColumnSpan="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="*"/>
+			</Grid.ColumnDefinitions>
+
+			<Button Grid.Column="0"
+			        Content="Save"
+					FontSize="20"
+					Margin="5"
+					Padding="5"
+			        Command="{Binding SaveCommand}"/>
+		</Grid>
+	</Grid>
+</Window>
