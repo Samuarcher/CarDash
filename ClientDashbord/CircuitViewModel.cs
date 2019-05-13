@@ -9,22 +9,15 @@ namespace ClientDashbord
 	{
 		private PisteViewModel _piste;
 		private string _pisteName;
+		private double _distance;
 
 		public string NomCircuit { get; set; }
 
-		[JsonIgnore]
-		public string PisteName
-		{
-			get => this._pisteName;
-			set
-			{
-				this._pisteName = value;
-				this.OnPropertyChanged();
-			}
-		}
+		public string Pays { get; set; }
 
 		public ObservableCollection<PisteViewModel> Pistes { get; }
 
+		[JsonIgnore]
 		public PisteViewModel Piste
 		{
 			get => this._piste;
@@ -38,9 +31,32 @@ namespace ClientDashbord
 		[JsonIgnore]
 		public ICommand AjouterPisteCommand { get; }
 
-		public CircuitViewModel(string nomCircuit)
+		[JsonIgnore]
+		public string PisteName
+		{
+			get => this._pisteName;
+			set
+			{
+				this._pisteName = value;
+				this.OnPropertyChanged();
+			}
+		}
+
+		[JsonIgnore]
+		public double Distance
+		{
+			get => this._distance;
+			set
+			{
+				this._distance = value;
+				this.OnPropertyChanged();
+			}
+		}
+
+		public CircuitViewModel(string nomCircuit,string pays)
 		{
 			this.NomCircuit = nomCircuit;
+			this.Pays = pays;
 
 			this.Pistes = new ObservableCollection<PisteViewModel>();
 
@@ -49,9 +65,10 @@ namespace ClientDashbord
 
 		private void ExecuteAjouterPiste()
 		{
-			this.Piste = new PisteViewModel(this.PisteName);
+			this.Piste = new PisteViewModel(this.PisteName, this.Distance);
 			this.Pistes.Add(this.Piste);
 			this.PisteName = String.Empty;
+			this.Distance = 0;
 		}
 	}
 }

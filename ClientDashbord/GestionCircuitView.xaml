@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:clientDashbord="clr-namespace:ClientDashbord"
         xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Gestion des circuits" Height="800" Width="1300"
         d:DataContext="{d:DesignInstance clientDashbord:GestionCircuitViewModel}">
@@ -44,12 +45,18 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="Auto"/>
 						</Grid.ColumnDefinitions>
 
 						<TextBox Grid.Column="0"
 						         Margin="5"
 						         Text="{Binding CircuitName}"/>
-						<Button Grid.Column="1"
+						<ComboBox Grid.Column="1"
+								  Margin="5"
+								  ItemsSource="{Binding PaysComboBox.Pays}"
+								  SelectedItem="{Binding Pays}"
+						          Width="150"/>
+						<Button Grid.Column="2"
 							Margin="5"
 					        Content="Ajouter"
 							Command="{Binding AjouterCircuitCommand}"/>
@@ -63,6 +70,9 @@
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Nom"
 						                    Binding="{Binding NomCircuit}"
+						                    FontSize="15"/>
+						<DataGridTextColumn Header="Pays"
+						                    Binding="{Binding Pays}"
 						                    FontSize="15"/>
 					</DataGrid.Columns>
 				</DataGrid>
@@ -83,12 +93,21 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="*"/>
 							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="Auto"/>
 						</Grid.ColumnDefinitions>
 
 						<TextBox Grid.Column="0"
 						         Margin="5"
 						         Text="{Binding CircuitViewModel.PisteName}"/>
-						<Button Grid.Column="1"
+						<xctk:DoubleUpDown Grid.Column="1"
+										   Margin="5"
+										   Minimum="0"
+										   FormatString="F2"
+										   Increment=".1"
+										   Watermark="Distance"
+										   Value="{Binding CircuitViewModel.Distance}"
+						                   Width="150"/>
+						<Button Grid.Column="2"
 				            Margin="5"
 				            Content="Ajouter"
 				            Command="{Binding CircuitViewModel.AjouterPisteCommand}"/>
@@ -102,6 +121,9 @@
 					<DataGrid.Columns>
 						<DataGridTextColumn Header="Nom"
 						                    Binding="{Binding NomPiste}"
+						                    FontSize="15"/>
+						<DataGridTextColumn Header="Distance"
+						                    Binding="{Binding Distance, StringFormat={}{0:##.00} Km}"
 						                    FontSize="15"/>
 					</DataGrid.Columns>
 				</DataGrid>

@@ -2,18 +2,23 @@
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
+using ClientDashbord.ViewModels.Combo;
 using Newtonsoft.Json;
 
 namespace ClientDashbord
 {
 	public class GestionCircuitViewModel : BaseNotify
 	{
-		private string _folderSaveRaceFile;
-		private string _circuitNameFile;
+		private readonly string _folderSaveRaceFile;
+		private readonly string _circuitNameFile;
 		private CircuitViewModel _circuitViewModel;
 		private string _circuitName;
+		private string _pays;
 		public ObservableCollection<CircuitViewModel> CircuitViewModels { get; set; }
+
+		public PaysComboBoxViewModel PaysComboBox { get; set; }
 
 		public CircuitViewModel CircuitViewModel
 		{
@@ -35,11 +40,24 @@ namespace ClientDashbord
 			}
 		}
 
+		public string Pays
+		{
+			get => this._pays;
+			set
+			{
+				this._pays = value;
+				this.OnPropertyChanged();
+			}
+		}
+
 		public ICommand AjouterCircuitCommand { get; }
 		public ICommand SaveCommand { get; }
 
 		public GestionCircuitViewModel()
 		{
+			this.PaysComboBox = new PaysComboBoxViewModel();
+			this.Pays = this.PaysComboBox.Pays.First();
+
 			this._folderSaveRaceFile = ConfigurationManager.AppSettings["FolderSaveRaceFile"];
 			this._circuitNameFile = ConfigurationManager.AppSettings["CircuitFileName"];
 
@@ -79,9 +97,10 @@ namespace ClientDashbord
 
 		private void ExecuteAjouterCircuit()
 		{
-			this.CircuitViewModel = new CircuitViewModel(this.CircuitName);
+			this.CircuitViewModel = new CircuitViewModel(this.CircuitName, this.Pays);
 			this.CircuitViewModels.Add(this.CircuitViewModel);
 			this.CircuitName = String.Empty;
+			this.Pays = this.PaysComboBox.Pays.First();
 		}
 	}
 }

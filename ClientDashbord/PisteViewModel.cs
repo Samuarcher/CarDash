@@ -4,9 +4,12 @@
 	{
 		public string NomPiste { get; set; }
 
-		public PisteViewModel(string nomPiste)
+		public double Distance { get; set; }
+
+		public PisteViewModel(string nomPiste, double distance)
 		{
 			this.NomPiste = nomPiste;
+			this.Distance = distance;
 		}
 	}
 }
